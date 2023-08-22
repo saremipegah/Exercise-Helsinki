@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>New note in Single page app diagram</title>
+</head>
+<body>
+   
+    <pre class="mermaid">
+        sequenceDiagram
+        browser->>+server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa 
+        Note right of server :the request tells the server that the included data is represented in JSON format.
+        server-->>-browser: status code 201 
+        Note left of browser: the browser stays on the same page, and it sends no further HTTP requests.
+        
+    </pre>
+  
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+    
+</body>
+</html>
