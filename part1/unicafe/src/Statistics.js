@@ -1,23 +1,30 @@
-const Statistics = ({good,neutral,bad}) => {
+import StatisticLine from "./StatisticLine";
 
-  const all = good+neutral+bad;
-  if(all === 0){
-    return  <p>No feedback given </p>
+const Statistics = ({good,neutral,bad}) => {
    
-    
-  }
-  const average = (good*(1)+neutral*(0)+bad*(-1))/all;
-  const positive = (good * 100) / all;
-  
- 
-  
-    return(
-        <div>
-        <p>all {all}</p>
-       <p>average {average}</p>
-       <p>positive {positive}%</p>
-            
-        </div>
+    const all= good+neutral+bad;
+    const average=(good*(1)+neutral*(0)+bad*(-1))/all;
+    const positive= (good*(1) * 100) /all;
+      
+
+  if (good === 0 && neutral=== 0 && bad === 0) {
+    return (
+      <div>
+        no feed back given
+      </div>
     )
-}
-export default Statistics
+  }
+  
+       return (
+        <div>
+
+            <StatisticLine value={good} text="good"/>
+            <StatisticLine value={neutral} text="neutral" />
+            <StatisticLine value={bad} text="bad"/>
+            <StatisticLine value={all} text="all"/>
+            <StatisticLine value={average} text="average"/>
+            <StatisticLine value={`${positive}%`} text="positive"/>
+        </div>
+      )
+       }
+  export default Statistics
