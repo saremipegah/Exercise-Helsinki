@@ -16,15 +16,16 @@ const Statistics = ({good,neutral,bad}) => {
   }
   
        return (
-        <div>
-
+        <table>
+            <tbody>
             <StatisticLine value={good} text="good"/>
             <StatisticLine value={neutral} text="neutral" />
             <StatisticLine value={bad} text="bad"/>
             <StatisticLine value={all} text="all"/>
             <StatisticLine value={average} text="average"/>
             <StatisticLine value={`${positive}%`} text="positive"/>
-        </div>
+            </tbody>
+        </table>
       )
        }
   export default Statistics
