@@ -13,7 +13,8 @@ const App= ()=> {
     'The only way to go fast, is to go well.'
   ]
 
-  const [selected,setSelected]= useState(0)
+  const [selected,setSelected]= useState(0);
+  const [votes,setVotes]= useState(new Array(anecdotes.length).fill(0));
  
   const randomHandler = () => {
      const randomItem =Math.floor( Math.random() * anecdotes.length)
@@ -21,11 +22,21 @@ const App= ()=> {
      setSelected(randomItem)
   }
 
+  const voteHandler = () => {
+    const voteCopyArray= [...votes]
+    voteCopyArray[selected] += 1;
+    console.log(voteCopyArray);
+    setVotes(voteCopyArray)
+  }
+
+
+
   return (
     <div>
       <div>{anecdotes[selected]}</div>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={voteHandler}>vote</button>
       <button onClick={randomHandler}>next anecdotes</button>
-     
     </div>
    
   );
