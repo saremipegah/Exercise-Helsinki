@@ -1,5 +1,6 @@
 import React from 'react'
 import Course from './components/Course'
+import Total from './components/Total'
 
 
 const App = () => {
@@ -21,6 +22,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
@@ -28,6 +34,7 @@ const App = () => {
   return (
     <div>
      <Course course={course}/>
+     <Total parts={course.parts}/>
     </div>
   )
 }
