@@ -1,7 +1,7 @@
 
-const Total = (props) => {
+const Total = ({parts}) => {
 
-    const all =props.parts.reduce((acc,p)=> acc + p.exercises,0)
+    const all = parts.reduce((acc,p)=> acc + p.exercises,0)
     return ( 
         <div>
           <strong>Total of {all} exercises</strong>

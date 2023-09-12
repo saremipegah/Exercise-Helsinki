@@ -4,18 +4,17 @@ import Total from './Total'
 
 
 
-const Course = (props) =>{
+const Course = ({course}) =>{
 
 
     return(
         <div>
             
-            <Header name={props.course.name}/>
-            <Content parts={props.course.parts}/>
-            <Total parts={props.course.parts}/>
+            <Header name={course.name}/>
+            <Content parts={course.parts}/>
+            <Total parts={course.parts}/>
           
         
-
         </div>
     )
 
