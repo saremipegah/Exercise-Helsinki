@@ -15,8 +15,16 @@ import { useState } from 'react'
    const nameObject = {
     name : newName
    }
-   setPersons(persons.concat(nameObject))
-   setNewName('')
+   const allPhonebook =  persons.map(person => person.name)
+   if(allPhonebook.includes(newName)){
+    alert(`${newName} is already added to phonebook`)
+   
+   }else{
+
+     setPersons(persons.concat(nameObject))
+     setNewName('')
+   }
+
   }
 
   const handlePersoneChange = (event) =>{
@@ -24,9 +32,6 @@ import { useState } from 'react'
   }
 
   
-
-
-
   return (
     <div>
        <h2>Phonebook</h2>
@@ -42,6 +47,7 @@ import { useState } from 'react'
       <div>
         <ul>
           {persons.map(person => <li key={person.name}>{person.name}</li>)}
+         
         </ul>
       </div>
 
