@@ -36,12 +36,16 @@ import axios from 'axios'
    if(allPhonebook.includes(newName)){
     alert(`${newName} is already added to phonebook`)
    
-   }else{
-
-     setPersons(persons.concat(nameObject))
-     setNewName('')
-     setNewNumber('')
    }
+
+     axios
+    .post('http://localhost:3001/persons',nameObject)
+    .then(response => {
+      console.log(response)
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+   })
 
   }
 
@@ -57,6 +61,8 @@ import axios from 'axios'
  const filterPerson = showPerson === '' ? persons : persons.filter(person =>
   person.name.toLowerCase().includes(showPerson.toLowerCase())
   )
+
+ 
 
   
   return (
