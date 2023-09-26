@@ -63,6 +63,17 @@ import DataPersons from './Services/DataPersons';
   person.name.toLowerCase().includes(showPerson.toLowerCase())
   )
 
+const deleteHandler = (name , id) => {
+  console.log(deleteHandler);
+  if(window.confirm(`Do you whant delete this ${name}?`)){
+    DataPersons.remove(id)
+    .then(()=>{
+      setPersons(persons.filter((person) => person.id !== id))
+
+    })
+  }
+}
+
  
 
   
@@ -75,7 +86,7 @@ import DataPersons from './Services/DataPersons';
         newName={newName} newNumber={newNumber} handlePersoneChange={handlePersoneChange}  handleNumberChange={handleNumberChange}/>
        <h2>Numbers</h2>
       <div>
-       <Persons filterPerson={filterPerson} persons={persons}/>
+       <Persons filterPerson={filterPerson} persons={persons} deleteHandler={deleteHandler} />
       </div>
 
 
