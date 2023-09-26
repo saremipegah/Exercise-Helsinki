@@ -3,7 +3,8 @@ import { useState ,useEffect } from 'react'
 import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import Persons from './components/Persons';
-import axios from 'axios'
+import DataPersons from './Services/DataPersons';
+
 
 
 
@@ -16,11 +17,11 @@ import axios from 'axios'
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    DataPersons
+      .getAll()
+      .then(initialPersons => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(initialPersons)
       })
   }, [])
   console.log('render', persons.length, 'persons')
@@ -38,11 +39,11 @@ import axios from 'axios'
    
    }
 
-     axios
-    .post('http://localhost:3001/persons',nameObject)
-    .then(response => {
-      console.log(response)
-      setPersons(persons.concat(response.data))
+     DataPersons
+    .create(nameObject)
+    .then(returnPerson => {
+      console.log(returnPerson)
+      setPersons(persons.concat(returnPerson))
       setNewName('')
       setNewNumber('')
    })

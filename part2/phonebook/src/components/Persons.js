@@ -12,3 +12,4 @@ const Persons =({filterPerson}) => {
 }
 
 export default Persons
+
