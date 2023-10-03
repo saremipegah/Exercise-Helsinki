@@ -14,67 +14,110 @@ import DataPersons from './Services/DataPersons';
   const [newName,setNewName]=useState('');
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
+  
 
   useEffect(() => {
     console.log('effect')
     DataPersons
       .getAll()
-      .then(initialPersons => {
+      .then(initialPersons=> {
         console.log('promise fulfilled')
         setPersons(initialPersons)
       })
   }, [])
   console.log('render', persons.length, 'persons')
 
+
+
   const addPerson = (event) => {
    event.preventDefault()
-   const nameObject = {
-    name : newName,
-    number: newNumber
-   
-   }
-   const allPhonebook =  persons.map(person => person.name)
-   if(allPhonebook.includes(newName)){
-    alert(`${newName} is already added to phonebook`)
-   
-   }
+
+   const isDuplicateName = persons.map(person => person.name).includes(newName);
+   const isDuplicateNumber = persons.map(person => person.number).includes(newNumber);
+
+   if (!isDuplicateName && !isDuplicateNumber) {
+
+     const nameObject = { name: newName, number: newNumber };
 
      DataPersons
-    .create(nameObject)
-    .then(returnPerson => {
+      .create(nameObject)
+      .then(returnPerson=> {
       console.log(returnPerson)
       setPersons(persons.concat(returnPerson))
-      setNewName('')
-      setNewNumber('')
-   })
-
-  }
-
-  const handlePersoneChange = (event) =>{
-    setNewName(event.target.value)
-  }
-  const handleNumberChange = (event) =>{
-    setNewNumber(event.target.value)
-  }
-  const showhandlre = (event)=> {
-    setShowPerson(event.target.value)
- }
- const filterPerson = showPerson === '' ? persons : persons.filter(person =>
-  person.name.toLowerCase().includes(showPerson.toLowerCase())
-  )
-
-const deleteHandler = (name , id) => {
-  console.log(deleteHandler);
-  if(window.confirm(`Do you whant delete this ${name}?`)){
-    DataPersons.remove(id)
-    .then(()=>{
-      setPersons(persons.filter((person) => person.id !== id))
-
-    })
-  }
-}
-
  
+
+})
+     
+   }else if (isDuplicateName && isDuplicateNumber) {
+     alert(`Both the name ${newName} and number ${newNumber} are already in the phonebook`);
+     setNewName('');
+     setNewNumber('');
+   } else if (isDuplicateName) {
+     const replaceNumber = window.confirm(`${newName} is already added to the phonebook,
+       replace the old number with a new one?`);
+       console.log("replaceNumber",replaceNumber)
+
+     if (replaceNumber) {
+       const personToUpdate = persons.find(p => p.name === newName);
+       const updatedPerson = { ...personToUpdate, number: newNumber };
+        
+       const key=personToUpdate.id
+
+       console.log("id",key)
+       DataPersons
+       .update(personToUpdate.id, addPerson)
+       .then(()=>{
+        setPersons(
+          persons.map(p =>(p.name === newName ? updatedPerson : p))
+        );
+       })
+       
+     }
+       
+     
+     }
+     setNewName('');
+     setNewNumber('');
+
+      
+  
+    
+ 
+};
+
+
+
+const handlePersoneChange = (event) =>{
+ setNewName(event.target.value)
+}
+const handleNumberChange = (event) =>{
+ setNewNumber(event.target.value)
+}
+const showhandlre = (event)=> {
+ setShowPerson(event.target.value)
+}
+const filterPerson = showPerson === '' ? persons : persons.filter(person =>
+person.name.toLowerCase().includes(showPerson.toLowerCase())
+)
+
+const deleteHandler = (name,id) => {
+const DeletePerson= window.confirm("Delete " + name + " ?") 
+ console.log(name,id)
+
+ if (DeletePerson) {
+    DataPersons
+   .remove(id)
+   .then(() => {
+     setPersons(persons.filter((person) => person.id !== id))
+     
+   })
+   .catch(error => {
+     
+   });
+ 
+       }
+  
+}
 
   
   return (
