@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm';
 import Filter from './components/Filter';
 import Persons from './components/Persons';
 import DataPersons from './Services/DataPersons';
+import Notification from './components/Notification';
 
 
 
@@ -14,6 +15,8 @@ import DataPersons from './Services/DataPersons';
   const [newName,setNewName]=useState('');
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
+  const [successMessage, setSuccessMessage] = useState('')
+  
   
 
   useEffect(() => {
@@ -42,8 +45,12 @@ import DataPersons from './Services/DataPersons';
      DataPersons
       .create(nameObject)
       .then(returnPerson=> {
-      console.log(returnPerson)
+      console.log("return",returnPerson)
       setPersons(persons.concat(returnPerson))
+      setSuccessMessage(`Added ${newName}`)
+      setTimeout(()=>{
+        setSuccessMessage(null)
+      },5000)
  
 
 })
@@ -70,6 +77,10 @@ import DataPersons from './Services/DataPersons';
         setPersons(
           persons.map(p =>(p.name === newName ? updatedPerson : p))
         );
+        setSuccessMessage(`${newName}'s number changed`)
+        setTimeout(()=>{
+          setSuccessMessage(null)
+        },5000)
        })
        
      }
@@ -78,10 +89,6 @@ import DataPersons from './Services/DataPersons';
      }
      setNewName('');
      setNewNumber('');
-
-      
-  
-    
  
 };
 
@@ -123,6 +130,7 @@ const DeletePerson= window.confirm("Delete " + name + " ?")
   return (
     <div>
        <h2>Phonebook</h2>
+       <Notification successMessage={successMessage}/>
        <Filter showPerson={showPerson} showhandlre={showhandlre} />
         <h2>add a new</h2>
        <PersonForm addPerson={addPerson} 

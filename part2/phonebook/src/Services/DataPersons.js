@@ -20,4 +20,4 @@ const remove = (id) => {
 }
 
 
-export default {getAll, create , remove , update}
+export default {getAll, create , update , remove }
