@@ -1,18 +1,17 @@
 import './Notification.css'
-const Notification = ({successMessage}) =>{
+const Notification = ({successMessage , errorMessage}) =>{
     console.log(successMessage);
 
-    if(!successMessage){
+    if(!successMessage && ! errorMessage){
       return null;
     }
-    if(successMessage){
+   
         return(
-            <div className="notification">
-                {successMessage}
+            <div className={` message ${successMessage ? "success" : "error" }`}>
+                {!successMessage ? errorMessage : successMessage}
             </div>
         )
 
-    }
     
 
 }

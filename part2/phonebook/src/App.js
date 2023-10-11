@@ -16,6 +16,7 @@ import Notification from './components/Notification';
   const [newNumber,setNewNumber]=useState('');
   const [showPerson,setShowPerson]=useState('');
   const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   
   
 
@@ -82,11 +83,21 @@ import Notification from './components/Notification';
           setSuccessMessage(null)
         },5000)
        })
+       .catch(error => {
+        setErrorMessage(
+          `Information of '${newName}' has already been removed from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+        setPersons(persons.filter(p => p.name !== newName))
+      });
+     }
        
      }
        
      
-     }
+     
      setNewName('');
      setNewNumber('');
  
@@ -130,7 +141,7 @@ const DeletePerson= window.confirm("Delete " + name + " ?")
   return (
     <div>
        <h2>Phonebook</h2>
-       <Notification successMessage={successMessage}/>
+       <Notification successMessage={successMessage} errorMessage={errorMessage}/>
        <Filter showPerson={showPerson} showhandlre={showhandlre} />
         <h2>add a new</h2>
        <PersonForm addPerson={addPerson} 
