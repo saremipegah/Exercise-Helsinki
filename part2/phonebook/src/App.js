@@ -151,6 +151,8 @@ const DeletePerson= window.confirm("Delete " + name + " ?")
        <Persons filterPerson={filterPerson} persons={persons} deleteHandler={deleteHandler} />
       </div>
 
+     
+
 
     </div>
   )
@@ -159,3 +161,4 @@ const DeletePerson= window.confirm("Delete " + name + " ?")
 
 
 export default App
+
