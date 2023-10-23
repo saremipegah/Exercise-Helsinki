@@ -5,10 +5,12 @@ import { useEffect ,useState } from 'react';
 
 
 function App() {
-  const [countries,setCountries]=useState([]);
   const [value,setValue]=useState('');
-  const [error,setError]=useState('');
+  const [countries,setCountries]=useState([]);
   const [suggestions,setSuggestions]=useState([]);
+  const [error,setError]=useState('');
+  const [weather,setWeather]=useState(null);
+
 
  
 
@@ -33,6 +35,9 @@ function App() {
       setError('')
       setCountries(data || [])
       setSuggestions([])
+      if(data[0]?.capital){
+        fetchWeather(data[0].capital);
+      }
 
      }
      
@@ -61,6 +66,22 @@ function App() {
 
  } 
 
+ const fetchWeather = async capital => {
+  try {
+    const apiKey = process.env.REACT_APP_API_KEY;
+    const weatherResponse = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${apiKey}`
+    );
+    setWeather(weatherResponse.data);
+    console.log("weather" , weather)
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    setWeather(null);
+  }
+};
+
+
+
 
 
   return (
@@ -73,7 +94,7 @@ function App() {
           {suggestions.map((suggestion,index)=>(
             <li key={index}>
               {suggestion}
-              
+
               <button onClick={() =>handleSuggestin(suggestion)}> Show</button>
             </li>
           ))}
@@ -108,6 +129,21 @@ function App() {
             />
             </div>
             )}
+            {weather && (
+              <div>
+                <h2> weather in {countries[0].capital}</h2>
+                <p>Temperature :{Math.floor(weather.main.temp-273.15)}°C</p>
+                <img
+                style={{ margin: '20px 0' }}
+                width="100px"
+                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                alt={`${countries[0].name.common} weather icon`}
+                />
+                 <p>Wind: {weather.wind.speed}</p>
+              </div>
+            )
+              
+            }
 
             {error && <p>{error}</p>}
         </div>
